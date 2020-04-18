@@ -4,12 +4,17 @@ div{
 }
 
 #result{
-    height: 70px;
+    height: 50px;
     margin: 50px auto auto auto;
-    width: 550px;
+    width: 500px;
+    padding: 20px 50px 20px 0px;
+    text-align: right;
+    font-size: 45px;
+    letter-spacing: 4px;
 }
 
 #digitContainer{
+    border: none;
     display: grid;
     grid-template-columns: auto auto auto auto;
     margin: auto;
