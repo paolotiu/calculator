@@ -14,14 +14,15 @@ body{
     background-color: whitesmoke;
     height: 80px;
     margin: 70px auto auto auto;
-    width: 470px;
-    padding: 20px 50px 20px 0px;
+    width: 480px;
+    padding: 20px 40px 20px 0px;
     text-align: right;
     line-height: 80px;
     font-size: 45px;
     letter-spacing: 4px;
     box-shadow: var(--shadow);
     overflow: hidden;
+    font-family: sans-serif;
 }
 
 
@@ -36,6 +37,7 @@ body{
     width: 520px;
     text-align: center;
     box-shadow: var(--shadow);
+    font-family: sans-serif;
 }
 
 #main{
