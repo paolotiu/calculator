@@ -3,6 +3,10 @@ div{
     text-align: center;
 }
 
+body{
+    background-color: rgb(113,199,236);
+}
+
 #result{
     height: 50px;
     margin: 50px auto auto auto;
@@ -21,7 +25,7 @@ div{
     width: 550px;
 }
 
-.digits, .operators, .special{
+.digits, .operators, .special, #dot{
     padding: 25px;
 }
 

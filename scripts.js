@@ -21,6 +21,12 @@ function operate (){
     let j = 0;
     let count = 0;
     let len = operatorArray.length;
+
+    //decimal counter
+    Number.prototype.countDecimals = function () {
+        if(Math.floor(this.valueOf()) === this.valueOf()) return 0;
+        return this.toString().split(".")[1].length || 0; 
+    }
     
     for(let i = 0; i < len; i++){
         console.log(Numbers, operatorArray)
@@ -34,15 +40,29 @@ function operate (){
                 (operator == 'x') ? multiply(a,b) :
                 divide(a,b);
 
+        let decimalCount = total.countDecimals();
+        if (decimalCount >= 5){
+            total = total.toFixed(5);
+        }
+
         Numbers.splice(index, 2, total);
         operatorArray.splice(index, 1)
     }
         
-   
+    clicked = true;
     Numbers = [total];
     operatorArray = [];
     counter = 0;
-    display.innerText = total;      
+    console.log(total)
+    if(total == 'Infinity' || total == 'NaN'){
+        alert('ERROR');
+        display.innerText = '';
+        total = 0;
+    }
+    else{
+        display.innerText = total;   
+    }
+       
 }
 
 function checkOperators (text){
@@ -58,11 +78,18 @@ function checkOperators (text){
 
 let display = document.querySelector('#result');
 let digits = document.querySelectorAll('.digits');
+const dot = document.getElementById('dot');
 const operators = document.querySelectorAll('.operators')
+const clear = document.getElementById('clear');
+const equals = document.getElementById('equals');
+const back = document.getElementById('backspace');
+equals.addEventListener('click', operate);
+
 digits = Array.from(digits);
 let Numbers = [];
 let operatorArray = [];
 let counter = 0;
+let clicked = false;
 
 // adds text to display
 digits.forEach((button) => button.addEventListener('click', () => {
@@ -76,21 +103,53 @@ digits.forEach((button) => button.addEventListener('click', () => {
 
 }))
 
+// for diving the arrays into parts
 operators.forEach((button) => button.addEventListener('click', () => {
     Numbers[counter] = Numbers[counter].slice(0,Numbers[counter].length - 1);
     operatorArray[counter] = button.innerText;
-    
+    clicked = false;
     counter++;
 }))
 
-const clear = document.getElementById('clear');
+//clear function
 clear.onclick = () =>{
     display.innerText = '';
     Numbers = [];
     operatorArray = [];
     counter = 0;
-
+    clicked = false;
 }
 
-const equals = document.getElementById('equals');
-equals.addEventListener('click', operate);
+// prevents user to click dot more than once
+dot.onclick = () => {
+    if (!clicked){
+        display.innerText += dot.innerText;
+    if(Numbers[counter]){
+        Numbers[counter] += dot.innerText;
+    } 
+    else{
+        Numbers[counter] = dot.innerText;
+    }
+    clicked = true;
+    }
+}
+
+
+//backspace function
+back.onclick = () => {
+    let text = display.innerText;
+
+    if(text.endsWith('+') || text.endsWith('-') || text.endsWith('x') || text.endsWith('/')){
+        operatorArray.pop();
+    }
+    else{
+        Numbers[counter] = Numbers[counter].slice(0,Numbers[counter].length -1)
+
+        if(!Numbers[counter]){
+            Numbers.pop();
+            counter--;
+        }
+    }
+
+    display.innerText = text.slice(0, text.length -1);
+}
