@@ -15,20 +15,15 @@ function divide (a,b){
 }
 
 function operate (){
-    
+    if(!operatorArray.length) {
+        clear.click();
+        return;    
+    }
     const text = display.innerText;
     let total =0;
     let j = 0;
     let count = 0;
     let len = operatorArray.length;
-
-
-
-    //decimal counter
-    Number.prototype.countDecimals = function () {
-        if(Math.floor(this.valueOf()) === this.valueOf()) return 0;
-        return this.toString().split(".")[1].length || 0; 
-    }
     
     for(let i = 0; i < len; i++){
         console.log(Numbers, operatorArray)
@@ -55,13 +50,10 @@ function operate (){
 
         Numbers.splice(index, 2, total);
         operatorArray.splice(index, 1)
-    }
-        
-    
+    }   
     operatorArray = [];
     counter = 0;
     Numbers - []
-    console.log(total)
     if(total == 'ERROR'){
         alert('ERROR');
         display.innerText = '';
@@ -71,9 +63,13 @@ function operate (){
         Numbers = [total];
         display.innerText = total;  
         clicked = true;
-    }
-       
+    }     
 }
+
+//decimal counter
+Number.prototype.countDecimals = function () {
+    if(Math.floor(this.valueOf()) === this.valueOf()) return 0;
+    return this.toString().split(".")[1].length || 0;}
 
 function checkOperators (text){
 
@@ -113,16 +109,25 @@ digits.forEach((button) => button.addEventListener('click', () => {
 
 }))
 
-// for diving the arrays into parts
-operators.forEach((button) => button.addEventListener('click', () => {
+// function displayDigit(e){
+//     display.innerText += e.innerText;
+//     if(Numbers[counter]){
+//         Numbers[counter] += e.innerText;
+//     } 
+//     else{
+//         Numbers[counter] = e.innerText;
+//     }
 
-    
+// }
+// adds text to display
+//digits.forEach((button) => button.addEventListener('keypress', displayDigit))
+
+// for diving the arrays into parts
+operators.forEach((button) => button.addEventListener('click', () => {  
     display.innerText += button.innerText;
     operatorArray.push(button.innerText);
     clicked = false;
     counter++;
-
-    
 }))
 
 //clear function
@@ -177,5 +182,46 @@ back.onclick = () => {
     if (counter < 0) counter = 0;
     
 
-    display.innerText = text.slice(0, text.length -1);
+    display.innerText = text.slice(0, text.length -1);   
+}
+
+
+
+document.onkeydown = function (e){
+        if(e.key == 'c' || e.key == 'C'){
+            clear.click();
+            return;
+        }
+
+        if(e.key == 'Backspace' || e.key == 'Delter'){
+            back.click();
+            return
+        }
+
+        if (equals.innerText == e.key  || e.key == 'Enter'){
+            equals.click();
+            return
+        }
+
+        if(e.key == '.'){
+            dot.click();
+            return;
+        }
+
+        
+        digits.forEach((button) => {
+            if(button.innerText == e.key){
+                button.click()
+                return
+            }
+        })
+
+        operators.forEach((button) => {
+            if(button.innerText == e.key  || button.dataset.val == e.key){
+                button.click()
+                return
+            }
+        })
+
+        
 }
