@@ -22,6 +22,8 @@ function operate (){
     let count = 0;
     let len = operatorArray.length;
 
+
+
     //decimal counter
     Number.prototype.countDecimals = function () {
         if(Math.floor(this.valueOf()) === this.valueOf()) return 0;
@@ -39,27 +41,33 @@ function operate (){
                 (operator == '-') ? subtract(a,b) :
                 (operator == 'x') ? multiply(a,b) :
                 divide(a,b);
-
+        console.log(total)
+        if (total == 'undefined' || total == 'Infinity' || isNaN(total)){
+            total = 'ERROR'
+            break;
+        }
+        
         let decimalCount = total.countDecimals();
         if (decimalCount >= 5){
             total = total.toFixed(5);
         }
+        
 
         Numbers.splice(index, 2, total);
         operatorArray.splice(index, 1)
     }
         
     clicked = true;
-    Numbers = [total];
     operatorArray = [];
     counter = 0;
     console.log(total)
-    if(total == 'Infinity' || total == 'NaN'){
+    if(total == 'ERROR'){
         alert('ERROR');
         display.innerText = '';
         total = 0;
     }
     else{
+        Numbers = [total];
         display.innerText = total;   
     }
        
@@ -105,10 +113,14 @@ digits.forEach((button) => button.addEventListener('click', () => {
 
 // for diving the arrays into parts
 operators.forEach((button) => button.addEventListener('click', () => {
-    Numbers[counter] = Numbers[counter].slice(0,Numbers[counter].length - 1);
-    operatorArray[counter] = button.innerText;
+
+    
+    display.innerText += button.innerText;
+    operatorArray.push(button.innerText);
     clicked = false;
     counter++;
+
+    
 }))
 
 //clear function
@@ -138,18 +150,29 @@ dot.onclick = () => {
 //backspace function
 back.onclick = () => {
     let text = display.innerText;
-
     if(text.endsWith('+') || text.endsWith('-') || text.endsWith('x') || text.endsWith('/')){
-        operatorArray.pop();
+        if (operatorArray.length == 1){
+            operatorArray = [];
+        }
+        else{
+        operatorArray.pop();}      
     }
     else{
+        while(Numbers[counter] == undefined){
+            console.log(hey)
+            counter--;
+            
+        }
         Numbers[counter] = Numbers[counter].slice(0,Numbers[counter].length -1)
-
         if(!Numbers[counter]){
             Numbers.pop();
+            console.log('popper')
             counter--;
         }
     }
+
+    if (counter < 0) counter = 0;
+    
 
     display.innerText = text.slice(0, text.length -1);
 }
