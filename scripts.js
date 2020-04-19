@@ -57,9 +57,10 @@ function operate (){
         operatorArray.splice(index, 1)
     }
         
-    clicked = true;
+    
     operatorArray = [];
     counter = 0;
+    Numbers - []
     console.log(total)
     if(total == 'ERROR'){
         alert('ERROR');
@@ -68,7 +69,8 @@ function operate (){
     }
     else{
         Numbers = [total];
-        display.innerText = total;   
+        display.innerText = total;  
+        clicked = true;
     }
        
 }
@@ -150,6 +152,13 @@ dot.onclick = () => {
 //backspace function
 back.onclick = () => {
     let text = display.innerText;
+
+    while(!Numbers[counter]){
+        if(counter == 0){
+            break;
+        }
+        counter--;
+    }
     if(text.endsWith('+') || text.endsWith('-') || text.endsWith('x') || text.endsWith('/')){
         if (operatorArray.length == 1){
             operatorArray = [];
@@ -158,15 +167,9 @@ back.onclick = () => {
         operatorArray.pop();}      
     }
     else{
-        while(Numbers[counter] == undefined){
-            console.log(hey)
-            counter--;
-            
-        }
         Numbers[counter] = Numbers[counter].slice(0,Numbers[counter].length -1)
         if(!Numbers[counter]){
             Numbers.pop();
-            console.log('popper')
             counter--;
         }
     }
